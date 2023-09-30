@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 809843671}
   m_Layer: 8
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Hitable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,6 +146,7 @@ MonoBehaviour:
   deathRemaining: {fileID: 2376743483228248041, guid: a7a7d110f18681f4e8a3bd848299540a, type: 3}
   deathParticle: {fileID: 3052417740439657179, guid: f466431b1b009ae4cb30b66efda1f5b6, type: 3}
   mySR: {fileID: 7564454557696005338}
+  defaultColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!212 &809843671
 SpriteRenderer:
   m_ObjectHideFlags: 0

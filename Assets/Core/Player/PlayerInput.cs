@@ -8,6 +8,8 @@ public struct FrameInput
 {
     public Vector2 Move;
     public bool Jump;
+    public bool Jetpack;
+    public bool StopJet;
 }
 
 public class PlayerInput : MonoBehaviour
@@ -16,14 +18,15 @@ public class PlayerInput : MonoBehaviour
 
     public FrameInput frameInput { get; private set; }
 
-    private InputAction move;
-    private InputAction jump;
+    private InputAction move, jump, jetpack,StopJet;
 
     private void Awake()
     {
         _playeInputAction = new PlayerInputAction();
         move = _playeInputAction.Player.Move;
         jump = _playeInputAction.Player.Jump;
+        jetpack = _playeInputAction.Player.RightMouse;
+        StopJet = _playeInputAction.Player.RightMouse;
     }
     private void OnEnable()
     {
@@ -34,7 +37,7 @@ public class PlayerInput : MonoBehaviour
         _playeInputAction.Disable();
     }
 
-    void Update()
+    private void Update()
     {
         frameInput = GatherInput();
     }
@@ -44,7 +47,9 @@ public class PlayerInput : MonoBehaviour
         return new FrameInput
         {
             Move = move.ReadValue<Vector2>(),
-            Jump = jump.WasPerformedThisFrame()
+            Jump = jump.WasPerformedThisFrame(),
+            Jetpack = jetpack.WasPerformedThisFrame(),
+            StopJet = jetpack.WasReleasedThisFrame() 
         };
     }
 }

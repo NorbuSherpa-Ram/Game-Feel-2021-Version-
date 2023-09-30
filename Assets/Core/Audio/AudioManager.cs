@@ -14,21 +14,36 @@ public class AudioManager : MonoBehaviour
     [SerializeField] GameObject audioSourcePrefab;
     [SerializeField] ObjectPooler pooler;
 
+    public static AudioManager instance;
 
     #region UNITY_METHODS
+    private void Awake()
+    {
+        instance = this;
+    }
     private void OnEnable()
     {
         Gun.OnShoot += GunShootSound;
+        Gun.OnLauncherShoot += LauncherSound;
+       // Grenade.OnGrenadActivate += GrenadeBeep;
         PlayerController.OnJump += JumpSound;
-        Health.OnDeath  += DeathSound;
+        PlayerController.OnJetpack += JetSound;
+        Health.OnDeath += DeathSound;
         DiscoballManager.OnDiscoballHit += PlayPartySound;
+
+
     }
     private void OnDisable()
     {
         Gun.OnShoot -= GunShootSound;
+       // Grenade.OnGrenadActivate -= GrenadeBeep;
+
         PlayerController.OnJump -= JumpSound;
+        PlayerController.OnJetpack -= JetSound;
         Health.OnDeath -= DeathSound;
         DiscoballManager.OnDiscoballHit -= PlayPartySound;
+        Gun.OnLauncherShoot -= LauncherSound;
+
     }
     private void Start()
     {
@@ -119,6 +134,11 @@ public class AudioManager : MonoBehaviour
     private void GunShootSound() => PlayRandomClip(soundCollectionSO.attackClip);
     private void JumpSound() => PlayRandomClip(soundCollectionSO.jumpClip);
     private void DeathSound() => PlayRandomClip(soundCollectionSO.splatterClip);
+    private void JetSound() => PlayRandomClip(soundCollectionSO.jetpackClip);
+
+    public  void LauncherSound() => PlayRandomClip(soundCollectionSO.launcherClip);
+    public  void GrenadeBeepSound() => PlayRandomClip(soundCollectionSO.beepClip );
+    public  void ExplosionSound() => PlayRandomClip(soundCollectionSO.explosionClip );
     #endregion
 
 }

@@ -6,26 +6,29 @@ using UnityEngine;
 public class PlayerController : Entity 
 {
     public static PlayerController Instance;
-
     [Header("Component")]
     private PlayerInput playerInput;
     public  FrameInput frameInput { get; private set; }
-
 
     [Header("Ground_Info")]
     [SerializeField] private Transform feetPosition;
     [SerializeField] private Vector2 groundCheckSize;
     [SerializeField] private LayerMask whatIsGround;
 
-
     private bool hasDoubleJump;
     public static Action OnJump;
+    public static Action OnJetpack;
 
     [Header("Custom Gravity ")]
     [SerializeField] private float customGravity = 700;
     [SerializeField] private float gravityTime = .2f;
     [SerializeField] private float coyoteTime = 2f;
     private float airTimer, coyoteTimer;
+
+    public Jetpack myJetpack;
+    [SerializeField ] private TrailRenderer  jetTrailRenderer;
+    [SerializeField] private float jetTime = 1f;
+    [SerializeField] private float jetStrength = 10f;
 
     protected override void Awake()
     {
@@ -46,11 +49,13 @@ public class PlayerController : Entity
     protected   override  void Start()
     {
         base.Start();
+        myJetpack.SetJetpack(jetTime, jetStrength, jetTrailRenderer);
     }
     protected override  void Update()
     {
         GatherInput();
         Jump();
+        Jetpack();
         CoyoteTimer();
         HandleSpriteFlip();
         OnAirTimer();
@@ -62,10 +67,22 @@ public class PlayerController : Entity
     }
     private void GatherInput()
     {
-        if(!isKnockback)
-        frameInput = playerInput.frameInput;
+        if (!isKnockback)
+            frameInput = playerInput.frameInput;
     }
 
+    private void Jetpack()
+    {
+        if (frameInput.Jetpack)
+        {
+            myJetpack.LunchJetpack();
+            OnJetpack?.Invoke();
+        }
+        if(frameInput.StopJet)
+        {
+            myJetpack.StopJet();
+        }
+    }
     private void Move()
     {
         SetVelocity(frameInput.Move.x * moveSpeed, myRb.velocity.y);

@@ -47,7 +47,7 @@ public class Entity : MonoBehaviour
     }
 
 
-    protected virtual void SetVelocity(float _x, float _y)
+    public  virtual void SetVelocity(float _x, float _y)
     {
         myRb.velocity = new Vector2(_x, _y);
     }

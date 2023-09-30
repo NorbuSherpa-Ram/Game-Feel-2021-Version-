@@ -4,51 +4,80 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-
+public enum GunType
+{
+    Machingun,
+    Launcher
+}
 public class Gun : MonoBehaviour
 {
-    public static event Action  OnShoot;
+    public static event Action OnShoot;
+    public static event Action OnLauncherShoot;
 
-    
     private Animator myAnim;
-    private CinemachineImpulseSource impulseSource;
-    [SerializeField] private Transform _bulletSpawnPoint;
-    [SerializeField] private GameObject _bulletPrefab;
-    [SerializeField] private GameObject muzzleFalsh;
 
+    [Header("Gun Info ")]
+    public GunType gunType;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject muzzleFalsh;
+    private CinemachineImpulseSource impulseSource;
+
+    [Header("Machine Gun Info")]
+    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] float bulletSpeed;
     [SerializeField] private float gunCd;
     private float lastFire;
 
-    private Vector2 mousePos;
 
-    private   ObjectPooler objectPooler;
+    [Header("Launcher Gun Info")]
+    [SerializeField] Grenade grenadePrefabs;
+    [SerializeField] float grenadeSpeed;
+    [SerializeField] private float launcherCd;
+    private float lastLauncherFire;
+
+
+    private Vector2 mousePos;
+    private ObjectPooler objectPooler;
+    private PlayerController player;
+
+    private Coroutine muzzleFlashRoutine;
 
     private readonly int Fire_Has = Animator.StringToHash("Gun_Fire");
 
-    private Coroutine muzzleFlashRoutine;
-    PlayerController player;
+
     private void OnEnable()
     {
-        OnShoot += ShootProjectile;
+        OnShoot += ShootBullet;
         OnShoot += ResrtLastFire;
         OnShoot += FireAnimation;
         OnShoot += MuzzleFlash;
         OnShoot += ScreenShake;
+
+        OnLauncherShoot += ShootGrenad;
+        OnLauncherShoot += ScreenShake;
+        OnLauncherShoot += ResrtLauncherLastFire;
+        OnLauncherShoot += FireAnimation;
     }
     private void OnDisable()
     {
-        OnShoot -= ShootProjectile;
+        OnShoot -= ShootBullet;
         OnShoot -= ResrtLastFire;
         OnShoot -= FireAnimation;
         OnShoot -= MuzzleFlash;
         OnShoot -= ScreenShake;
+
+        OnLauncherShoot -= ShootGrenad;
+        OnLauncherShoot -= ScreenShake;
+        OnLauncherShoot -= ResrtLauncherLastFire;
+        OnLauncherShoot -= FireAnimation;
+
     }
 
     private void Start()
     {
         player = PlayerController.Instance;
         objectPooler = ObjectPooler.instance;
-        impulseSource =GetComponent<CinemachineImpulseSource>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
         myAnim = GetComponentInChildren<Animator>();
     }
 
@@ -57,8 +86,23 @@ public class Gun : MonoBehaviour
     {
         Shoot();
         GunRotation();
+        ChangeGunMode();
     }
 
+    private void ChangeGunMode()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (gunType == GunType.Machingun)
+            {
+                gunType = GunType.Launcher;
+            }
+       else      if (gunType == GunType.Launcher)
+            {
+                gunType = GunType.Machingun;
+            }
+        }
+    }
     private void GunRotation()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -66,38 +110,56 @@ public class Gun : MonoBehaviour
         float angle = Mathf.Atan2(localDirection.y, localDirection.x) * Mathf.Rad2Deg;
         transform.localRotation = Quaternion.Euler(0, 0, angle);
     }
-
     private void Shoot()
     {
-        if (Input.GetMouseButton(0) && lastFire  <= Time.time)
+        if (Input.GetMouseButton(0))
         {
-            OnShoot?.Invoke();
+            if (gunType == GunType.Machingun)
+            {
+
+                if (lastFire <= Time.time)
+                {
+                    OnShoot?.Invoke();
+                }
+            }
+            else if (gunType == GunType.Launcher)
+            {
+                if (lastLauncherFire <= Time.time)
+                {
+                    OnLauncherShoot?.Invoke();
+                }
+            }
         }
     }
+        private void ResrtLastFire() => lastFire = Time.time + gunCd;
+        private void ResrtLauncherLastFire() => lastLauncherFire = Time.time + launcherCd;
+        private void FireAnimation() => myAnim.Play(Fire_Has, 0, 0);
+        private void ScreenShake() => impulseSource.GenerateImpulse();
 
-    private void ResrtLastFire() => lastFire = Time.time + gunCd;
-    private void FireAnimation() => myAnim.Play(Fire_Has, 0, 0);
-    private void ScreenShake() => impulseSource.GenerateImpulse();
+        private void ShootBullet()
+        {
+            GameObject newBullet = objectPooler.GetObjectFormPool(_bulletPrefab, firePoint.position);
+            if (newBullet != null)
+                newBullet?.GetComponent<Bullet>().SetUp(player.transform.position, mousePos, bulletSpeed);
+        }
+        private void ShootGrenad()
+        {
+            Grenade newGrenade = Instantiate(grenadePrefabs, firePoint.position, Quaternion.identity);
+            newGrenade.LaunchGrenade(player.transform.position, mousePos, grenadeSpeed);
+        }
 
-    private void ShootProjectile()
-    {
-        GameObject newBullet = objectPooler.GetObjectFormPool(_bulletPrefab, _bulletSpawnPoint.position);
-        if(newBullet != null)
-            newBullet?.GetComponent<Bullet>().SetUp(player.transform.position, mousePos); ;
+        private void MuzzleFlash()
+        {
+            if (muzzleFlashRoutine != null)
+                StopCoroutine(muzzleFlashRoutine);
 
+            muzzleFlashRoutine = StartCoroutine(MuzzleFlashDelay());
+        }
+        IEnumerator MuzzleFlashDelay()
+        {
+            muzzleFalsh.SetActive(true);
+            yield return new WaitForSeconds(.08f);
+            muzzleFalsh.SetActive(false);
+
+        }
     }
-    private void MuzzleFlash()
-    {
-        if(muzzleFlashRoutine!=null)
-            StopCoroutine(muzzleFlashRoutine);
-
-        muzzleFlashRoutine = StartCoroutine(MuzzleFlashDelay());
-    }
-    IEnumerator MuzzleFlashDelay()
-    {
-        muzzleFalsh.SetActive(true);
-        yield return new WaitForSeconds(.08f);
-        muzzleFalsh.SetActive(false);
-
-    }
-}

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private GameObject deathParticle;
-    [SerializeField] private float _moveSpeed = 10f;
+    private float _moveSpeed;
     [SerializeField] private int _damageAmount = 1;
 
     private Vector2 _fireDirection;
@@ -22,8 +22,9 @@ public class Bullet : MonoBehaviour
         pooler = ObjectPooler.instance;
     }
 
-    public void SetUp(Vector2 _bullateSpownPosition , Vector2 _mousePos)
+    public void SetUp(Vector2 _bullateSpownPosition , Vector2 _mousePos,float _moveSpeed)
     {
+        this._moveSpeed = _moveSpeed;
         _fireDirection = (_mousePos-_bullateSpownPosition).normalized  ;
     }
     private void FixedUpdate()

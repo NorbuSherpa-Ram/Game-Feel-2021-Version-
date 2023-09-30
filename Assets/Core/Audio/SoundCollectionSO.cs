@@ -13,4 +13,10 @@ public class SoundCollectionSO : ScriptableObject
     public SoundSO[] attackClip;
     public SoundSO[] jumpClip;
     public SoundSO[] splatterClip;
+    public SoundSO[] jetpackClip;
+
+    [Header("Luncher Info  ")]
+    public SoundSO[] beepClip;
+    public SoundSO[] launcherClip;
+    public SoundSO[] explosionClip;
 }

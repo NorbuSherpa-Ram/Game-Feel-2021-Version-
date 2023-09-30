@@ -24,3 +24,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aaf78fa8d0b544b419b9dc972e8b0b10, type: 2}
   - {fileID: 11400000, guid: 17a81020acf63b34da995104ecefe622, type: 2}
   - {fileID: 11400000, guid: 336ef5ebb8eff684d955a068136f4b85, type: 2}
+  jetpackClip:
+  - {fileID: 11400000, guid: 4be0d9a4a0fa0c541b16a4129d9c0ccb, type: 2}
+  beepClip:
+  - {fileID: 11400000, guid: 09963440e55229b4698a40ab1b6cba6e, type: 2}
+  launcherClip:
+  - {fileID: 11400000, guid: 56cba693ee7d4e94390519fde5966a59, type: 2}
+  explosionClip:
+  - {fileID: 11400000, guid: 24b3963c88af7b14f828c7d80b867002, type: 2}

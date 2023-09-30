@@ -22,6 +22,7 @@ public class EntityFX : MonoBehaviour
     {
         pooler = ObjectPooler.instance;
         defaultMaterial = mySR.material;
+        defaultColor = mySR.color;
     }
 
     public  void SplatterEffect()
@@ -45,7 +46,6 @@ public class EntityFX : MonoBehaviour
 
     private IEnumerator FlashEffect()
     {
-        defaultColor = mySR.color;
         mySR.color = Color.white;
         mySR.material = flashMaterial;
         yield return new WaitForSeconds(.05f);
