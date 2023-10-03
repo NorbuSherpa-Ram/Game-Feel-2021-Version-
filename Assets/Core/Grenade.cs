@@ -11,12 +11,15 @@ public class Grenade : MonoBehaviour
     [SerializeField] private GameObject explosionParticle;
     private Vector2 lunchDirection;
     private int beepCount = 3;
-
     [SerializeField] LayerMask enemyLayer;
     private Coroutine beepRoutine;
 
     // public static Action<Grenade > OnGrenadActivate;
     public static Action<Grenade> OnGrenadExplode;
+
+    [SerializeField] SoundSO beepClip;
+    [SerializeField] SoundSO explodeClip;
+
     private void OnEnable()
     {
         OnGrenadExplode += DamageEnemy;
@@ -38,7 +41,8 @@ public class Grenade : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
-        IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+     //   IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+        IHitable damageable = other.gameObject.GetComponent<IHitable >();
 
         if (damageable != null)
         {
@@ -53,8 +57,8 @@ public class Grenade : MonoBehaviour
         while (beepCount > 0)
         {
             beepCount--;
-            AudioManager.instance.GrenadeBeepSound();
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.6f);
+            GameAudioManager.instance.PlaySFX(null, beepClip, beepClip.volume, false);
         }
         Explode();
     }
@@ -63,22 +67,23 @@ public class Grenade : MonoBehaviour
         OnGrenadExplode?.Invoke(this);
         myImpulsSource.GenerateImpulse();
         Instantiate(explosionParticle, transform.position, Quaternion.identity);
-        AudioManager.instance.ExplosionSound();
+        GameAudioManager.instance.PlaySFX(null, explodeClip, explodeClip.volume, false);
     }
     private void DamageEnemy(Grenade _grenade)
     {
         if (_grenade != this) return;
-        Collider2D[] hit = Physics2D.OverlapCircleAll(transform.position, 2, enemyLayer);
-        foreach (Collider2D enemy in hit)
+        Collider2D[] hit = Physics2D.OverlapCircleAll(transform.position, 2.5f);
+        foreach (Collider2D col in hit)
         {
-            enemy.GetComponent<IDamageable>().TakeDamage(3, Mathf.RoundToInt(lunchDirection.normalized.x));
-            enemy.GetComponent<IHitable>().OnHit();
+            int dir = col.transform.position.x < transform.position.x ? -1 : 1;
+            if (col.GetComponent<IHitable>() != null)
+                col.GetComponent<IHitable>().OnGetHit(3, dir *4);
         }
         this.gameObject.SetActive(false);
-        //  Destroy(this.gameObject)
     }
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position , 2);
+        Gizmos.DrawWireSphere(transform.position , 2.5f)
+            ;
     }
 }

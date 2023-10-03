@@ -34,14 +34,14 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //Instantiate(deathParticle, transform.position, Quaternion.identity);
         pooler.GetObjectFormPool(deathParticle, transform.position);
 
-        IHitable hitable = other.GetComponent<IHitable>();
-        hitable?.OnHit();
-
-        IDamageable damageable = other.GetComponent<IDamageable>();
-        damageable?.TakeDamage(_damageAmount, Mathf.RoundToInt(_fireDirection.x));
+        IHitable hit = other.GetComponent<IHitable>();
+        int knockDir = other.transform.position.x < transform.position.x ? -1 : 1;
+        if(hit != null)
+        {
+            hit.OnGetHit(_damageAmount, knockDir);
+        }
 
         this.gameObject.SetActive(false);
     }

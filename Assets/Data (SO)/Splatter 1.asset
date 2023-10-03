@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ef5666ebedc6f499a6b4b32dbd3e94, type: 3}
   m_Name: Splatter 1
   m_EditorClassIdentifier: 
-  clipType: 0
   clip: {fileID: 8300000, guid: 7cbd6cd765888ff418d01d98bd1ce9c2, type: 3}
   loop: 0
   randomPitch: 0
-  randomPitchRange: 0
-  pitch: 1
+  minPitch: 0.9
+  maxPitch: 1.1
   volume: 1

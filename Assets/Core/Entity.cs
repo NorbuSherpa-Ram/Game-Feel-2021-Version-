@@ -15,7 +15,7 @@ public class Entity : MonoBehaviour
     public float moveSpeed;
     public float jumpForce;
 
-    protected bool isKnockback;
+    public bool isKnockback { get; private set; }
     private bool facingRight = true;
 
     protected virtual void Awake()
@@ -28,18 +28,11 @@ public class Entity : MonoBehaviour
     protected virtual void Update() { }
     protected virtual void FixedUpdate() { }
 
-    public virtual void DeathEffect()
-    {
-        myFx.SplatterEffect();
-        myFx.SplatParticle();
-    }
-
-
     public virtual void Knockback(int _direction) => StartCoroutine(KnockBackTimer(_direction));
     private IEnumerator KnockBackTimer(int _knockbackDirection)
     {
-        SetVelocityZero();
         isKnockback = true;
+        SetVelocityZero();
         myRb.velocity = new Vector2(_knockbackDirection * knockbackForce.x, knockbackForce.y);
         yield return new WaitForSeconds(.25f);
         isKnockback = false;

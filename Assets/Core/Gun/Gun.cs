@@ -4,20 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public enum GunType
-{
-    Machingun,
-    Launcher
-}
 public class Gun : MonoBehaviour
 {
-    public static event Action OnShoot;
+    public static event Action OnGunFire;
     public static event Action OnLauncherShoot;
 
     private Animator myAnim;
 
     [Header("Gun Info ")]
-    public GunType gunType;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject muzzleFalsh;
     private CinemachineImpulseSource impulseSource;
@@ -30,11 +24,12 @@ public class Gun : MonoBehaviour
 
 
     [Header("Launcher Gun Info")]
+    [SerializeField] private int grenadeAmount = 3;
+    [SerializeField] private int maxGrenade; // How manay it can hold 
     [SerializeField] Grenade grenadePrefabs;
     [SerializeField] float grenadeSpeed;
     [SerializeField] private float launcherCd;
     private float lastLauncherFire;
-
 
     private Vector2 mousePos;
     private ObjectPooler objectPooler;
@@ -42,35 +37,38 @@ public class Gun : MonoBehaviour
 
     private Coroutine muzzleFlashRoutine;
 
-    private readonly int Fire_Has = Animator.StringToHash("Gun_Fire");
+
+    [SerializeField] private UI_Grenade uI_Grenade;
+    private readonly int FireHash = Animator.StringToHash("Gun_Fire");
 
 
     private void OnEnable()
     {
-        OnShoot += ShootBullet;
-        OnShoot += ResrtLastFire;
-        OnShoot += FireAnimation;
-        OnShoot += MuzzleFlash;
-        OnShoot += ScreenShake;
+        OnGunFire += ShootBullet;
+        OnGunFire += ResrtLastFire;
+        OnGunFire += FireAnimation;
+        OnGunFire += MuzzleFlash;
+        OnGunFire += ScreenShake;
 
         OnLauncherShoot += ShootGrenad;
         OnLauncherShoot += ScreenShake;
         OnLauncherShoot += ResrtLauncherLastFire;
         OnLauncherShoot += FireAnimation;
+        PlayerController.OnPick += RefillGrenade;
     }
     private void OnDisable()
     {
-        OnShoot -= ShootBullet;
-        OnShoot -= ResrtLastFire;
-        OnShoot -= FireAnimation;
-        OnShoot -= MuzzleFlash;
-        OnShoot -= ScreenShake;
+        OnGunFire -= ShootBullet;
+        OnGunFire -= ResrtLastFire;
+        OnGunFire -= FireAnimation;
+        OnGunFire -= MuzzleFlash;
+        OnGunFire -= ScreenShake;
 
         OnLauncherShoot -= ShootGrenad;
         OnLauncherShoot -= ScreenShake;
         OnLauncherShoot -= ResrtLauncherLastFire;
         OnLauncherShoot -= FireAnimation;
-
+        PlayerController.OnPick -= RefillGrenade;
     }
 
     private void Start()
@@ -79,6 +77,7 @@ public class Gun : MonoBehaviour
         objectPooler = ObjectPooler.instance;
         impulseSource = GetComponent<CinemachineImpulseSource>();
         myAnim = GetComponentInChildren<Animator>();
+        uI_Grenade.UpdateGrenadeUI(grenadeAmount);
     }
 
 
@@ -86,23 +85,8 @@ public class Gun : MonoBehaviour
     {
         Shoot();
         GunRotation();
-        ChangeGunMode();
     }
 
-    private void ChangeGunMode()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (gunType == GunType.Machingun)
-            {
-                gunType = GunType.Launcher;
-            }
-       else      if (gunType == GunType.Launcher)
-            {
-                gunType = GunType.Machingun;
-            }
-        }
-    }
     private void GunRotation()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -112,54 +96,59 @@ public class Gun : MonoBehaviour
     }
     private void Shoot()
     {
+
+        uI_Grenade.UpdateGrenadeUI(grenadeAmount);
+
         if (Input.GetMouseButton(0))
         {
-            if (gunType == GunType.Machingun)
+            if (lastFire <= Time.time)
             {
-
-                if (lastFire <= Time.time)
-                {
-                    OnShoot?.Invoke();
-                }
+                OnGunFire?.Invoke();
             }
-            else if (gunType == GunType.Launcher)
+        }
+        if (PlayerController.Instance.frameInput.Jetpack)
+        {
+            if (grenadeAmount < 1) return;
+            if (lastLauncherFire <= Time.time)
             {
-                if (lastLauncherFire <= Time.time)
-                {
-                    OnLauncherShoot?.Invoke();
-                }
+                OnLauncherShoot?.Invoke();
             }
         }
     }
-        private void ResrtLastFire() => lastFire = Time.time + gunCd;
-        private void ResrtLauncherLastFire() => lastLauncherFire = Time.time + launcherCd;
-        private void FireAnimation() => myAnim.Play(Fire_Has, 0, 0);
-        private void ScreenShake() => impulseSource.GenerateImpulse();
+    private void ResrtLastFire() => lastFire = Time.time + gunCd;
+    private void ResrtLauncherLastFire() => lastLauncherFire = Time.time + launcherCd;
+    private void FireAnimation() => myAnim.Play(FireHash, 0, 0);
+    private void ScreenShake() => impulseSource.GenerateImpulse();
 
-        private void ShootBullet()
-        {
-            GameObject newBullet = objectPooler.GetObjectFormPool(_bulletPrefab, firePoint.position);
-            if (newBullet != null)
-                newBullet?.GetComponent<Bullet>().SetUp(player.transform.position, mousePos, bulletSpeed);
-        }
-        private void ShootGrenad()
-        {
-            Grenade newGrenade = Instantiate(grenadePrefabs, firePoint.position, Quaternion.identity);
-            newGrenade.LaunchGrenade(player.transform.position, mousePos, grenadeSpeed);
-        }
-
-        private void MuzzleFlash()
-        {
-            if (muzzleFlashRoutine != null)
-                StopCoroutine(muzzleFlashRoutine);
-
-            muzzleFlashRoutine = StartCoroutine(MuzzleFlashDelay());
-        }
-        IEnumerator MuzzleFlashDelay()
-        {
-            muzzleFalsh.SetActive(true);
-            yield return new WaitForSeconds(.08f);
-            muzzleFalsh.SetActive(false);
-
-        }
+    private void ShootBullet()
+    {
+        GameObject newBullet = objectPooler.GetObjectFormPool(_bulletPrefab, firePoint.position);
+        if (newBullet != null)
+            newBullet?.GetComponent<Bullet>().SetUp(player.transform.position, mousePos, bulletSpeed);
     }
+    private void ShootGrenad()
+    {
+        grenadeAmount--;
+        Grenade newGrenade = Instantiate(grenadePrefabs, firePoint.position, Quaternion.identity);
+        newGrenade.LaunchGrenade(player.transform.position, mousePos, grenadeSpeed);
+    }
+    private void RefillGrenade(Pickable _pickable)
+    {
+        grenadeAmount += _pickable.PickAmount();
+        grenadeAmount = Mathf.Clamp(grenadeAmount, 0, maxGrenade);
+    }
+    private void MuzzleFlash()
+    {
+        if (muzzleFlashRoutine != null)
+            StopCoroutine(muzzleFlashRoutine);
+
+        muzzleFlashRoutine = StartCoroutine(MuzzleFlashDelay());
+    }
+    IEnumerator MuzzleFlashDelay()
+    {
+        muzzleFalsh.SetActive(true);
+        yield return new WaitForSeconds(.08f);
+        muzzleFalsh.SetActive(false);
+
+    }
+}

@@ -11,9 +11,10 @@ public class EntityFX : MonoBehaviour
     private Material defaultMaterial;
 
     [SerializeField] private Material flashMaterial;
+
     [Tooltip("particle/Effect For Death ")]
-    [SerializeField] private GameObject deathRemaining;
-    [SerializeField] private GameObject deathParticle;
+    public GameObject deathRemaining;
+    public GameObject deathParticle;
 
     public SpriteRenderer mySR;
    [SerializeField] Color defaultColor;
@@ -27,8 +28,9 @@ public class EntityFX : MonoBehaviour
 
     public  void SplatterEffect()
     {
-        Quaternion rotate = new Quaternion(0, 0, Random.Range(0, 180),1);
-        GameObject newSplatter = Instantiate(deathRemaining, transform.position,rotate);
+       // Quaternion rotate = new Quaternion(0, 0, Random.Range(0, 180),1);
+        GameObject newSplatter = Instantiate(deathRemaining, transform.position,Quaternion.identity);
+     //   newSplatter.transform.rotation = rotate;
         newSplatter.GetComponent<SpriteRenderer>().color = defaultColor;
         newSplatter.transform.SetParent(Splatter_Holder.instance.transform);
     }

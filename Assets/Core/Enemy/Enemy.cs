@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Enemy : Entity ,IDamageable
+public class Enemy : Entity 
 { 
     [SerializeField] private float _jumpInterval = 4f;
     [SerializeField] private float _changeDirectionInterval = 3f;
@@ -10,8 +10,6 @@ public class Enemy : Entity ,IDamageable
     {
         base.Awake();
     }
-
-
     protected override void Start()
     {
         base.Start();
@@ -57,14 +55,14 @@ public class Enemy : Entity ,IDamageable
         }
     }
 
-    public void TakeDamage(int _damageAmount, int _knockDirection)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-       myHealth.TakeDamage(_damageAmount);
-      Knockback(_knockDirection);
+        PlayerController player = other.gameObject.GetComponent<PlayerController>();
+        if (player != null)
+        {
+            int knockDir = other.transform.position.x < transform.position.x ? -1 : 1;
+            player.GetComponent<IHitable>().OnGetHit(1, knockDir); 
+        }
     }
 
-    public void OnHit()
-    {
-        myFx.Flash();
-    }
 }

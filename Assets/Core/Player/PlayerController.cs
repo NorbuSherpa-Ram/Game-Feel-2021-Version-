@@ -14,10 +14,7 @@ public class PlayerController : Entity
     [SerializeField] private Transform feetPosition;
     [SerializeField] private Vector2 groundCheckSize;
     [SerializeField] private LayerMask whatIsGround;
-
     private bool hasDoubleJump;
-    public static Action OnJump;
-    public static Action OnJetpack;
 
     [Header("Custom Gravity ")]
     [SerializeField] private float customGravity = 700;
@@ -25,10 +22,13 @@ public class PlayerController : Entity
     [SerializeField] private float coyoteTime = 2f;
     private float airTimer, coyoteTimer;
 
-    public Jetpack myJetpack;
-    [SerializeField ] private TrailRenderer  jetTrailRenderer;
-    [SerializeField] private float jetTime = 1f;
-    [SerializeField] private float jetStrength = 10f;
+    [SerializeField] private PlayerSFXHandler sFXHandler;
+
+    [Header("Event_Info")]
+    public static Action OnJump;
+ //   public static Action OnJetpack;
+    public static Action<Pickable> OnPick;
+
 
     protected override void Awake()
     {
@@ -49,13 +49,13 @@ public class PlayerController : Entity
     protected   override  void Start()
     {
         base.Start();
-        myJetpack.SetJetpack(jetTime, jetStrength, jetTrailRenderer);
+        //myJetpack.SetJetpack(jetTime, jetStrength, jetTrailRenderer);
     }
     protected override  void Update()
     {
         GatherInput();
         Jump();
-        Jetpack();
+    //    Jetpack();
         CoyoteTimer();
         HandleSpriteFlip();
         OnAirTimer();
@@ -71,21 +71,22 @@ public class PlayerController : Entity
             frameInput = playerInput.frameInput;
     }
 
-    private void Jetpack()
-    {
-        if (frameInput.Jetpack)
-        {
-            myJetpack.LunchJetpack();
-            OnJetpack?.Invoke();
-        }
-        if(frameInput.StopJet)
-        {
-            myJetpack.StopJet();
-        }
-    }
+    //private void Jetpack()
+    //{
+    //    if (frameInput.Jetpack)
+    //    {
+    //        myJetpack.LunchJetpack();
+    //        OnJetpack?.Invoke();
+    //    }
+    //    if (frameInput.StopJet)
+    //    {
+    //        myJetpack.StopJet();
+    //    }
+    //}
     private void Move()
     {
-        SetVelocity(frameInput.Move.x * moveSpeed, myRb.velocity.y);
+        if (!isKnockback)
+            SetVelocity(frameInput.Move.x * moveSpeed, myRb.velocity.y);
     }
 
     #region EXTRA_GRAVITY
@@ -157,6 +158,15 @@ public class PlayerController : Entity
         {
             facingDirection = 1;
             transform.eulerAngles = new Vector3(0f, 0f, 0f);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other )
+    {
+        Pickable pickable = other.GetComponent<Pickable>();
+        if(pickable!=null)
+        {
+            OnPick?.Invoke(pickable);
+            pickable.Deactivate();
         }
     }
     private void OnDrawGizmos()

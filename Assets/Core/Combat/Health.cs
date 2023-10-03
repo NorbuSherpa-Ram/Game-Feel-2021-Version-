@@ -2,31 +2,40 @@ using System;
  using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour,IHitable
 {
-    public static Action OnDeath;
-    [SerializeField] private int _startingHealth = 3;
-    [SerializeField ] private Entity myEntity;
-    private int _currentHealth;
+    [SerializeField] protected int _startingHealth = 3;
+    [SerializeField ] protected Entity myEntity;
+    protected int _currentHealth;
 
-    private void Start() {
+    protected virtual  void Start() {
 
         myEntity = GetComponent<Entity>();
         ResetHealth();
     }
 
-    public void ResetHealth() {
+    protected  void ResetHealth() {
         _currentHealth = _startingHealth;
     }
 
-    public void TakeDamage(int amount) {
+    protected  virtual  void DoDamage(int amount)
+    {
         _currentHealth -= amount;
-
-        if (_currentHealth <= 0) {
-            myEntity.DeathEffect();
-           OnDeath?.Invoke();
-            Destroy(gameObject);
+        if (_currentHealth <= 0)
+        {
+            Die();
+            return;
         }
+    }
+
+    protected virtual void Die()
+    {
+        Destroy(gameObject,0.1f);
+    }
+    public virtual  void OnGetHit(int _damageAmount , int _knockDir)
+    {
+        myEntity.myFx.Flash();
+        myEntity.Knockback(_knockDir);
+        DoDamage(_damageAmount);
     }
 }
