@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 809843671}
   - component: {fileID: 1185306284289657420}
   - component: {fileID: -8521269628678444933}
+  - component: {fileID: -2692709428480610782}
   - component: {fileID: 2699683782191572482}
   m_Layer: 8
   m_Name: Enemy
@@ -201,33 +202,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startingHealth: 3
   myEntity: {fileID: 2656737952503587502}
-  OnDeathDropItem:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -8521269628678444933}
-        m_TargetAssemblyTypeName: Item_Drop, Core.Runtime
-        m_MethodName: DropItem
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   level: 0
   healthModifire: 1
   scorePont: 1
-  hurtClip:
-  - {fileID: 11400000, guid: a2bc501150951414da8ffb4a0b949b81, type: 2}
-  - {fileID: 11400000, guid: bc6d903c6889b2c4eaee1b842814d73c, type: 2}
-  - {fileID: 11400000, guid: 8e60cce06e4811742845496601516630, type: 2}
-  deathClip:
-  - {fileID: 11400000, guid: aaf78fa8d0b544b419b9dc972e8b0b10, type: 2}
-  - {fileID: 11400000, guid: 17a81020acf63b34da995104ecefe622, type: 2}
-  - {fileID: 11400000, guid: 336ef5ebb8eff684d955a068136f4b85, type: 2}
-  source: {fileID: 2699683782191572482}
 --- !u!114 &-8521269628678444933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +219,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemToDrop:
   - {fileID: 1359454177861183260, guid: 66dd5080744bde84aa3f79e24a9be4e0, type: 3}
+  myHealth: {fileID: 0}
+--- !u!114 &-2692709428480610782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500829499347730933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ca24e169d1c6c4d8094a0286692939, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hurtClip:
+  - {fileID: 11400000, guid: a2bc501150951414da8ffb4a0b949b81, type: 2}
+  - {fileID: 11400000, guid: bc6d903c6889b2c4eaee1b842814d73c, type: 2}
+  - {fileID: 11400000, guid: 8e60cce06e4811742845496601516630, type: 2}
+  deathClip:
+  - {fileID: 11400000, guid: aaf78fa8d0b544b419b9dc972e8b0b10, type: 2}
+  - {fileID: 11400000, guid: 17a81020acf63b34da995104ecefe622, type: 2}
+  - {fileID: 11400000, guid: 336ef5ebb8eff684d955a068136f4b85, type: 2}
+  myHealth: {fileID: 0}
+  source: {fileID: 2699683782191572482}
+  audioManager: {fileID: 0}
 --- !u!82 &2699683782191572482
 AudioSource:
   m_ObjectHideFlags: 0

@@ -1,37 +1,7 @@
 fileFormatVersion: 2
-guid: 27a107940057e8743a507269b18a691a
+guid: 7fd34635cbdbb7748bc7819550cb9727
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -8187355101989356663
-    second: Checkpoint (Flag Idle)(64x64)_0
-  - first:
-      213: 3854939560234354291
-    second: Checkpoint (Flag Idle)(64x64)_1
-  - first:
-      213: -2176918498148329165
-    second: Checkpoint (Flag Idle)(64x64)_2
-  - first:
-      213: -1878543983233424424
-    second: Checkpoint (Flag Idle)(64x64)_3
-  - first:
-      213: 5249495973877922429
-    second: Checkpoint (Flag Idle)(64x64)_4
-  - first:
-      213: 7294162130811222863
-    second: Checkpoint (Flag Idle)(64x64)_5
-  - first:
-      213: 5907192917678821646
-    second: Checkpoint (Flag Idle)(64x64)_6
-  - first:
-      213: -3698963325330885405
-    second: Checkpoint (Flag Idle)(64x64)_7
-  - first:
-      213: -7168325035351650290
-    second: Checkpoint (Flag Idle)(64x64)_8
-  - first:
-      213: -8728669653598591988
-    second: Checkpoint (Flag Idle)(64x64)_9
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -92,8 +62,8 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
-  cookieLightType: 1
+  applyGammaDecoding: 0
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -112,7 +82,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -124,7 +94,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,7 +106,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -147,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Checkpoint (Flag Idle)(64x64)_0
+      name: Big Heart Idle (18x14)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 18
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 78fa78448f70c1e4faf49c9f88a9c54b
-      internalID: -8187355101989356663
+      spriteID: 6f792e46ada9f684395704aaad208097
+      internalID: -841904319
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Checkpoint (Flag Idle)(64x64)_1
+      name: Big Heart Idle (18x14)_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 18
         y: 0
-        width: 64
-        height: 64
+        width: 18
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab3e50640594789418addc0acc5cbc36
-      internalID: 3854939560234354291
+      spriteID: 6db057790fa039749b70726d9b642ac5
+      internalID: -590429158
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Checkpoint (Flag Idle)(64x64)_2
+      name: Big Heart Idle (18x14)_2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 36
         y: 0
-        width: 64
-        height: 64
+        width: 18
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,20 +173,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6168b3c29d1b8d648a71c46aa04577a7
-      internalID: -2176918498148329165
+      spriteID: 82743b3ccdcb82d42b08c9c96cd07c6e
+      internalID: 606078520
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Checkpoint (Flag Idle)(64x64)_3
+      name: Big Heart Idle (18x14)_3
       rect:
         serializedVersion: 2
-        x: 192
+        x: 54
         y: 0
-        width: 64
-        height: 64
+        width: 18
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,20 +194,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f5e74464f83e05e4f92c67249e2e2c25
-      internalID: -1878543983233424424
+      spriteID: 5b658a9a7e7808a41878d1bcf81647d4
+      internalID: 1289468764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Checkpoint (Flag Idle)(64x64)_4
+      name: Big Heart Idle (18x14)_4
       rect:
         serializedVersion: 2
-        x: 256
+        x: 72
         y: 0
-        width: 64
-        height: 64
+        width: 18
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -245,20 +215,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4da96e01361d1774a8cbb03e94b32a8c
-      internalID: 5249495973877922429
+      spriteID: d4dbc2b958a1f234b9d58d8ecacb6896
+      internalID: -1520855785
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Checkpoint (Flag Idle)(64x64)_5
+      name: Big Heart Idle (18x14)_5
       rect:
         serializedVersion: 2
-        x: 320
+        x: 90
         y: 0
-        width: 64
-        height: 64
+        width: 18
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -266,20 +236,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70dbacd09ee556d41872d40a6aad6ac8
-      internalID: 7294162130811222863
+      spriteID: 464986013e67c1846b1f276bdb47ed30
+      internalID: 242447012
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Checkpoint (Flag Idle)(64x64)_6
+      name: Big Heart Idle (18x14)_6
       rect:
         serializedVersion: 2
-        x: 384
+        x: 108
         y: 0
-        width: 64
-        height: 64
+        width: 18
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -287,20 +257,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28c3be9e40a4bdb49a3c10f95a2fbf02
-      internalID: 5907192917678821646
+      spriteID: c04f1c5b5d3932e4196843c54290ef4e
+      internalID: 192482160
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Checkpoint (Flag Idle)(64x64)_7
+      name: Big Heart Idle (18x14)_7
       rect:
         serializedVersion: 2
-        x: 448
+        x: 126
         y: 0
-        width: 64
-        height: 64
+        width: 18
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -308,50 +278,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 220aede3c45c00f4298430afe2b5ed54
-      internalID: -3698963325330885405
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Checkpoint (Flag Idle)(64x64)_8
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8ecf1bddbdede9e4f831427f0e872926
-      internalID: -7168325035351650290
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Checkpoint (Flag Idle)(64x64)_9
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 76a155caba278ac45bea2b8e7ffcea0f
-      internalID: -8728669653598591988
+      spriteID: 1d8f92fa4168d9a498365ba6c17c90ef
+      internalID: 987974480
       vertices: []
       indices: 
       edges: []
@@ -367,16 +295,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Checkpoint (Flag Idle)(64x64)_0: -8187355101989356663
-      Checkpoint (Flag Idle)(64x64)_1: 3854939560234354291
-      Checkpoint (Flag Idle)(64x64)_2: -2176918498148329165
-      Checkpoint (Flag Idle)(64x64)_3: -1878543983233424424
-      Checkpoint (Flag Idle)(64x64)_4: 5249495973877922429
-      Checkpoint (Flag Idle)(64x64)_5: 7294162130811222863
-      Checkpoint (Flag Idle)(64x64)_6: 5907192917678821646
-      Checkpoint (Flag Idle)(64x64)_7: -3698963325330885405
-      Checkpoint (Flag Idle)(64x64)_8: -7168325035351650290
-      Checkpoint (Flag Idle)(64x64)_9: -8728669653598591988
+      Big Heart Idle (18x14)_0: -841904319
+      Big Heart Idle (18x14)_1: -590429158
+      Big Heart Idle (18x14)_2: 606078520
+      Big Heart Idle (18x14)_3: 1289468764
+      Big Heart Idle (18x14)_4: -1520855785
+      Big Heart Idle (18x14)_5: 242447012
+      Big Heart Idle (18x14)_6: 192482160
+      Big Heart Idle (18x14)_7: 987974480
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

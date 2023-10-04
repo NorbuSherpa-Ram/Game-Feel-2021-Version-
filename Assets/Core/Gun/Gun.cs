@@ -33,6 +33,7 @@ public class Gun : MonoBehaviour
 
     private Vector2 mousePos;
     private ObjectPooler objectPooler;
+    [SerializeField]
     private PlayerController player;
 
     private Coroutine muzzleFlashRoutine;

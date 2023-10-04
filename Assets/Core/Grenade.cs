@@ -20,6 +20,7 @@ public class Grenade : MonoBehaviour
     [SerializeField] SoundSO beepClip;
     [SerializeField] SoundSO explodeClip;
 
+    bool isExplode;
     private void OnEnable()
     {
         OnGrenadExplode += DamageEnemy;
@@ -49,7 +50,7 @@ public class Grenade : MonoBehaviour
             Explode();
             return;
         }
-        if (beepRoutine != null) return;
+        if (beepRoutine != null || isExplode) return;
         beepRoutine = StartCoroutine(nameof(BeepSound));
     }
     private IEnumerator BeepSound()
@@ -64,6 +65,7 @@ public class Grenade : MonoBehaviour
     }
     private void Explode()
     {
+        isExplode = true;
         OnGrenadExplode?.Invoke(this);
         myImpulsSource.GenerateImpulse();
         Instantiate(explosionParticle, transform.position, Quaternion.identity);

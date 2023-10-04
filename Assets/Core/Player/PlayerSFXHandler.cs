@@ -17,8 +17,16 @@ public class PlayerSFXHandler : MonoBehaviour
     [SerializeField] SoundSO megaKillClip;
     [SerializeField] SoundSO partyMusic;
 
+   [SerializeField] Health myHealth;
+    private void Awake()
+    {
+        myHealth = GetComponent<Health>();
+    }
     private void OnEnable()
     {
+        myHealth.OnHurt += HurtSound;
+        myHealth.OnDeath += DeathSound;
+
         PlayerController.OnJump += JumpSound;
         PlayerController.OnPick += PickSound;
         Gun.OnLauncherShoot += GreneadSound;
@@ -28,6 +36,9 @@ public class PlayerSFXHandler : MonoBehaviour
     }
     private void OnDisable()
     {
+        myHealth.OnHurt -= HurtSound;
+        myHealth.OnHurt -= DeathSound;
+
         PlayerController.OnJump -= JumpSound;
         PlayerController.OnPick -= PickSound;
         Gun.OnLauncherShoot -= GreneadSound;

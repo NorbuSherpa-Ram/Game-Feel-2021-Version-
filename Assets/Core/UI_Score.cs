@@ -3,13 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+/// <summary>
+//// this Clash should not// could not have Kill count directily in it 
+///it we calculate it in other class we can simply pass just a value //  and we can play sound Directyl in there calass for
+///Eg calculate in player // play sound in player sfx 
+/// </summary>
 public class UI_Score : MonoBehaviour
 {
     public static Action OnMegaKill;
 
     private int currentkillCount = 0;
     private int previousKillCount;
+
     [Header("Mega Kill Info")]
     [SerializeField] private int megaKillCount = 10;
     [SerializeField] private float megaKillCoolDown = 5;
